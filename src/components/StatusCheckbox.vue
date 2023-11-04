@@ -19,6 +19,7 @@
             name: this.status,
             checked: event.target.checked
         });
+        console.log(event, this.status);
       }
     }
   };

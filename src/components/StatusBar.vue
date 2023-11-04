@@ -43,4 +43,11 @@
   display: inline-block;
   margin-right: 5px;
 }
-</style>  
+.hideBar {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  margin-bottom: 20px;
+}
+
+  </style>  

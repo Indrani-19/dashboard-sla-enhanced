@@ -46,14 +46,14 @@
     data() {
       return {
         columns: [
-          { name: "Status", value: "Status" },
+          { name: "Status", value: "Status"},
           { name: "Cores", value: "Cores" },
           { name: "Product", value: "Product" },
           { name: "Lithography", value: "Lithography" },
           { name: "Threads", value: "Threads" },
           { name: "Base Freq", value: "Base_Freq" },
           { name: "Max Turbo Freq", value: "Max_Turbo_Freq" },
-          // Add other columns as needed
+          
         ]
       };
     },
@@ -76,11 +76,11 @@
   table th, table td {
     text-align: left;
     padding: 12px;
-    border-left: 1px solid #ddd; /* Add vertical lines for columns */
+    border-left: 1px solid #ddd; 
   }
   
   table th:first-child, table td:first-child {
-    border-left: none; /* Remove border from the first cell */
+    border-left: none; 
   }
   
   table tr {
@@ -88,15 +88,15 @@
   }
   
   .dashboard-sla-header td {
-    background-color:  #337AB7; /* Green background */
-    color: white; /* White text color */
+    background-color:  #337AB7; 
+    color: white;
     font-weight: bold;
-    text-align: center; /* Center align text */
-    vertical-align: middle; /* Center vertically */
+    text-align: center; 
+    vertical-align: middle; 
   }
   
   .ww-product-info-header th {
-    background-color: #337AB7; /* Blue background for WW data header */
+    background-color: #337AB7; 
     color: white;
     text-align: center;
     font-weight: bold;
@@ -104,22 +104,21 @@
   
   /* CSS classes for statuses */
   .status-announced {
-    background-color: rgb(167, 89, 89);
+    background-color: rgb(147, 94, 50);
   }
   
   .status-launched {
-    background-color: rgb(120, 54, 156);
+    background-color: rgb(172, 78, 170);
   }
   
   .status-discontinued {
-    background-color: rgb(168, 184, 44);
+    background-color: rgb(61, 160, 182);
   }
   
   .status-launchedwithipu {
-    background-color: rgb(172, 78, 170);
+    background-color: rgb(55, 96, 147);
   }
 
   
-  /* Add additional status classes if needed */
   </style>
   

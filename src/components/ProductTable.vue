@@ -1,41 +1,26 @@
 <template>
     <table>
       <thead>
-        <tr>
-          <td :colspan="12">Dashboard SLA</td>
+        <tr class="dashboard-sla-header">
+          <td :colspan="columns.length">Dashboard SLA</td>
         </tr>
-        <tr>
+        <tr class="ww-product-info-header">
           <th colspan="3">{{ wwData }}</th>
-          <th colspan="8">Product Info</th>
+          <th colspan="9">Product Info</th>
         </tr>
         <tr>
-          <th v-for="column of columns">{{ column.name }}</th>
+          <th v-for="column in columns" :key="column.name">{{ column.name }}</th>
         </tr>
       </thead>
       <tbody>
-        <!-- <template v-for="(productsByCores, status) in productData" :key="status">
-          <template v-if="!hideStatus.includes(status)">
-            <tr v-for="(products, cores, index) in productsByCores" :key="cores">
-              <td v-if="index === 0" :rowspan="calculateRowspan(productsByCores)">{{ status }}</td>
-              <td>{{ cores }}</td>
-              <td v-for="product of products" :key="product.id">{{ product.Product }}</td>
-              <td>{{ product.Lithography }}</td>
-              <td>{{ product.Threads }}</td>
-              <td>{{ product.Base_Freq }}</td>
-              <td>{{ product.Max_Turbo_Freq }}</td>
-            </tr>
-          </template>
-        </template> -->
-            <tr v-for="row of rawData">
-                <td v-for="column of columns">{{ row[column.value] }}</td>
-            </tr>
-        </tbody>
+        <tr v-for="row in rawData" :key="row.id" :class="statusClass(row.Status)">
+          <td v-for="column in columns" :key="column.value">{{ row[column.value] }}</td>
+        </tr>
+      </tbody>
     </table>
   </template>
   
-  
   <script>
-  // Standalone utility function outside of the component
   function getWWFromDate(date = new Date()) {
     let currentDate = date;
     let startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -50,60 +35,31 @@
   
   export default {
     props: {
-      productData: Object,
-      hideStatus: Array,
       rawData: Array
     },
     computed: {
       wwData() {
-        const wwInfo = getWWFromDate(); // Using the standalone function
+        const wwInfo = getWWFromDate();
         return `${wwInfo.year}WW${wwInfo.workweek}.${wwInfo.numofday}`;
       }
     },
     data() {
-        return {
-            columns: [
-                {
-                    name: "Status",
-                    value: "Status",
-                },
-                {
-                    name:"Cores",
-                    value:"Cores"
-                },
-                {
-                    name:"Product",
-                    value:"Product"
-                },
-
-                {
-                    name:"Lithography",
-                    value:"Lithography"
-                },
-
-                {
-                    name:"Threads",
-                    value:"Threads"
-                },
-                {
-                    name: "Base Freq",
-                    value: "Base_Freq"
-                },
-                {
-                    name:"x Turbo Freq",
-                    value:"Max_Turbo_Freq"
-                }
-            ]
-                
-        }
+      return {
+        columns: [
+          { name: "Status", value: "Status" },
+          { name: "Cores", value: "Cores" },
+          { name: "Product", value: "Product" },
+          { name: "Lithography", value: "Lithography" },
+          { name: "Threads", value: "Threads" },
+          { name: "Base Freq", value: "Base_Freq" },
+          { name: "Max Turbo Freq", value: "Max_Turbo_Freq" },
+          // Add other columns as needed
+        ]
+      };
     },
     methods: {
-      calculateRowspan(data) {
-        let sum = 0;
-        for (const cores in data) {
-          sum += data[cores].length + 1;
-        }
-        return sum;
+      statusClass(status) {
+        return `status-${status.replace(/\s+/g, '').replace(/[\(\)]/g, '').toLowerCase()}`;
       },
     }
   };
@@ -120,39 +76,50 @@
   table th, table td {
     text-align: left;
     padding: 12px;
+    border-left: 1px solid #ddd; /* Add vertical lines for columns */
+  }
+  
+  table th:first-child, table td:first-child {
+    border-left: none; /* Remove border from the first cell */
   }
   
   table tr {
     border-bottom: 1px solid #ddd;
   }
   
-  table th {
-    background-color: #f2f2f2;
-    color: black;
+  .dashboard-sla-header td {
+    background-color:  #337AB7; /* Green background */
+    color: white; /* White text color */
+    font-weight: bold;
+    text-align: center; /* Center align text */
+    vertical-align: middle; /* Center vertically */
   }
   
-  .width1 {
-    width: 1%;
-    white-space: nowrap;
+  .ww-product-info-header th {
+    background-color: #337AB7; /* Blue background for WW data header */
+    color: white;
+    text-align: center;
+    font-weight: bold;
   }
   
-  .innerCells {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /* CSS classes for statuses */
+  .status-announced {
+    background-color: rgb(167, 89, 89);
   }
   
-  .productColumn {
-    background-color: white;
+  .status-launched {
+    background-color: rgb(120, 54, 156);
   }
   
-  input[disabled] {
-    cursor: text;
-    background-color: inherit;
-    color: black;
-    border: none;
+  .status-discontinued {
+    background-color: rgb(168, 184, 44);
   }
   
-  /* Additional styles if necessary */
+  .status-launchedwithipu {
+    background-color: rgb(172, 78, 170);
+  }
+
+  
+  /* Add additional status classes if needed */
   </style>
   

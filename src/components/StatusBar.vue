@@ -24,8 +24,9 @@
     },
     methods: {
       handleToggle(toggleEvent) {
-        this.$emit('toggle', toggleEvent);
-      }
+        this.$emit('toggle', toggleEvent)
+        console.log('Toggle event:', toggleEvent);
+    }
     }
   };
   </script>

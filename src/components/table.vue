@@ -3,6 +3,8 @@
   <div id="the-table">
     <StatusBar :status-list="productDataByStatus.status" @toggle="handleFilters" />
     <ProductTable :raw-data="getFilteredRows.filteredData" />
+
+    
   </div>
 </template>
 
@@ -69,3 +71,5 @@ const productDataByStatus = computed(() => {
   font-family: 'Arial', sans-serif;
 }
 </style>
+
+

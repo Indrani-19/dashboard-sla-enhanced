@@ -24,9 +24,8 @@
     },
     methods: {
       handleToggle(toggleEvent) {
-        this.$emit('toggle', toggleEvent)
-        console.log('Toggle event:', toggleEvent);
-    }
+        this.$emit('toggle', toggleEvent);
+      }
     }
   };
   </script>
@@ -43,11 +42,4 @@
   display: inline-block;
   margin-right: 5px;
 }
-.hideBar {
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  margin-bottom: 20px;
-}
-
-  </style>  
+</style>  

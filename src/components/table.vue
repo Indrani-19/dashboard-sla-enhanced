@@ -1,6 +1,10 @@
 <template>
   <div id="the-table">
     <StatusBar :status-list="productDataByStatus.status" @toggle="handleFilters" />
+    
+    <div class="search-bar">
+      <input type="text" v-model="searchTerm" placeholder="Search" />
+    </div>
     <ProductTable :raw-data="paginatedData" />
     <Pagination
       :total-items="totalItems"
@@ -15,32 +19,33 @@
 import { ref, computed } from 'vue';
 import StatusBar from './StatusBar.vue';
 import ProductTable from './ProductTable.vue';
-import Pagination from './Pagination.vue'; 
+import Pagination from './Pagination.vue';
 import data from '../assets/data.json';
 
-// Constants for pagination
-const pageSize = 100; 
-const currentPage = ref(1); 
+const pageSize = 100;
+const currentPage = ref(1);
 
-// Other reactive references and functions
 const hidestatus = ref([]);
 const filters = ref(new Map());
+const searchTerm = ref(""); 
 
-// Function to handle filter changes
 const handleFilters = ({ name, checked }) => {
   filters.value.set(name, checked);
 };
 
-// Computed property for organizing data by status
 const productDataByStatus = computed(() => {
   let organizedData = {};
   let statusSet = new Set(data.map(item => item.Status));
 
   data.forEach(element => {
     if (hidestatus.value.includes(element.Status)) return;
-    if (!organizedData[element.Status]) organizedData[element.Status] = {};
+    if (!organizedData[element.Status]) {
+      organizedData[element.Status] = {};
+    }
     let cores = element.Cores;
-    if (!organizedData[element.Status][cores]) organizedData[element.Status][cores] = [];
+    if (!organizedData[element.Status][cores]) {
+      organizedData[element.Status][cores] = [];
+    }
     organizedData[element.Status][cores].push(element);
   });
 
@@ -50,29 +55,25 @@ const productDataByStatus = computed(() => {
   };
 });
 
-// Computed property for filtering data
 const getFilteredRows = computed(() => {
-  const filteredData = [];
-  data.forEach((row) => {
-    const status = row['Status'];
-    if (!filters.value.has(status) || filters.value.get(status)) {
-      filteredData.push(row);
-    }
+  const filteredData = data.filter((row) => {
+    const statusMatch = !filters.value.has(row.Status) || filters.value.get(row.Status);
+    const searchMatch = Object.values(row).some(
+      (value) => value.toString().toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
+    return statusMatch && (searchMatch || searchTerm.value === '');
   });
-  return { filteredData };
+  return filteredData;
 });
 
-// Computed property for paginated data
 const paginatedData = computed(() => {
   const startIndex = (currentPage.value - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  return getFilteredRows.value.filteredData.slice(startIndex, endIndex);
+  return getFilteredRows.value.slice(startIndex, endIndex);
 });
 
-// Computed property to get the total number of items for pagination
-const totalItems = computed(() => getFilteredRows.value.filteredData.length);
+const totalItems = computed(() => getFilteredRows.value.length);
 
-// Method to change the current page
 const changePage = (page) => {
   currentPage.value = page;
 };
@@ -82,7 +83,31 @@ const changePage = (page) => {
 #the-table {
   padding: 20px;
   font-family: 'Arial', sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+.search-bar-container {
+  margin-top: 10px; /* Adjust top margin to prevent overlap with hide bar */
+  text-align: center; /* Center the search bar */
+}
+
+
+.search-bar {
   background-color: black;
-  color: white; 
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  position: fixed; /* Set the position to fixed */
+  top: 5px; /* Stick it to the top */
+  width: 50%; /* Full width */
+  z-index: 100;
+  height: 2%;
+  justify-content:center; 
+  margin-left: 20%;/* Optional: Use a z-index to control the stacking order */
+}
+
+/* Adjust the input text style if needed */
+.search-bar::placeholder {
+  font-size: 10px; 
 }
 </style>

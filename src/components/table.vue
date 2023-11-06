@@ -1,6 +1,6 @@
 <template>
   <div id="the-table">
-    <StatusBar :status-list="productDataByStatus.status" @toggle="handleFilters" />
+    <StatusBar :status-list="getAllStatuses" @toggle="handleFilters" />
     
     <div class="search-bar">
       <input type="text" v-model="searchTerm" placeholder="Search" />
@@ -55,9 +55,19 @@ const productDataByStatus = computed(() => {
   };
 });
 
+const getAllStatuses = computed(() => {
+  return [
+    'All Statuses',
+    ...new Set(data.map(({Status}) => Status))
+  ];
+});
+
 const getFilteredRows = computed(() => {
   const filteredData = data.filter((row) => {
-    const statusMatch = !filters.value.has(row.Status) || filters.value.get(row.Status);
+    let statusMatch = !filters.value.has(row.Status) || !filters.value.get(row.Status);
+    if (filters.value.has('All Statuses') && !!filters.value.get('All Statuses')) {
+      statusMatch = false;
+    }
     const searchMatch = Object.values(row).some(
       (value) => value.toString().toLowerCase().includes(searchTerm.value.toLowerCase())
     );
@@ -87,8 +97,8 @@ const changePage = (page) => {
   color: #333;
 }
 .search-bar-container {
-  margin-top: 10px; /* Adjust top margin to prevent overlap with hide bar */
-  text-align: center; /* Center the search bar */
+  margin-top: 10px; 
+  text-align: center; 
 }
 
 
@@ -97,16 +107,15 @@ const changePage = (page) => {
   padding: 5px 10px;
   display: flex;
   align-items: center;
-  position: fixed; /* Set the position to fixed */
-  top: 5px; /* Stick it to the top */
-  width: 50%; /* Full width */
+  position: fixed; 
+  top: 5px; 
+  width: 50%; 
   z-index: 100;
   height: 2%;
   justify-content:center; 
-  margin-left: 20%;/* Optional: Use a z-index to control the stacking order */
+  margin-left: 20%;
 }
 
-/* Adjust the input text style if needed */
 .search-bar::placeholder {
   font-size: 10px; 
 }

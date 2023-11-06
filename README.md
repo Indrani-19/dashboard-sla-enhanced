@@ -43,15 +43,15 @@ Components
 - ProductRow.vue: A row component for the ProductTable, representing a single product.
 
 Additional Features
-- Status Filtering: 
+Status Filtering: 
 Toggle visibility of products based on their status.
 The user can get more clear display of same status column data at different place.
-- Live Search: 
+Live Search: 
 Instantly filter out products that don't match the search term.
 The search bar is on the top of the page.
 So, mention the status name which you want to search, we can able to see only those rows
 
-- Pagination: 
+  Pagination: 
 Navigate through product data in chunks, improving performance on large datasets.
 Click on the next page button to see the next data for each status selected.
 

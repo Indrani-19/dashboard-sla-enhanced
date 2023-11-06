@@ -3,7 +3,7 @@
     <StatusBar :status-list="getAllStatuses" @toggle="handleFilters" />
     
     <div class="search-bar">
-      <input type="text" v-model="searchTerm" placeholder="Search" />
+      <input type="text" v-model="searchTerm" placeholder="Search here" />
     </div>
     <ProductTable :raw-data="paginatedData" />
     <Pagination
@@ -114,6 +114,7 @@ const changePage = (page) => {
   height: 2%;
   justify-content:center; 
   margin-left: 20%;
+  border-radius: 10%;
 }
 
 .search-bar::placeholder {

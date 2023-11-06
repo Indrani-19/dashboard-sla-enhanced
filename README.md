@@ -74,7 +74,7 @@ To get the development environment running, follow these steps:
 
         npm install
 
-Change the Repo to "test"
+
 
 - Start the development server.
 

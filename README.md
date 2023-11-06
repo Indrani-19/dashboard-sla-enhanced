@@ -27,11 +27,11 @@ d. Search Bar Implementation:
 Code Refactoring and Upgrade:
 - Transitioned the project to Vue 3 with improved Composition API usage.
 - Organized components into single functionality modules for better clarity.
-- Pagination:
+  Pagination:
 - Implemented functional pagination to handle large sets of data, with a user-friendly UI component to navigate between pages.
-- Color Coding:
+  Color Coding:
 - Table rows are now color-coded based on the "Status" value, improving the visual interpretation of data status.
-- Search Functionality (Bonus Task):
+  Search Functionality (Bonus Task):
 - Added a search bar to filter rows dynamically based on user input, enhancing the application's usability.
 
 Components
